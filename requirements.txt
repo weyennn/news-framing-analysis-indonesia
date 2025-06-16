@@ -1,5 +1,0 @@
-pandas
-rank_bm25
-openai
-requests
-scikit-learn
