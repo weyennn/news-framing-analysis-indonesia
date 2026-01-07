@@ -1,91 +1,131 @@
-# Sistem Contrastive Retrieval untuk Eksplorasi Framing Berita
+# Eksplorasi Framing Berita Politik Indonesia Berbasis Contrastive Retrieval
 
-Prototipe penelitian ini dirancang untuk mengeksplorasi framing dalam berita daring berbahasa Indonesia menggunakan pendekatan contrastive information retrieval. Sistem ini mengambil dokumen relevan berdasarkan query pengguna, mengelompokkannya ke dalam dua kelompok narasi menggunakan KMeans, lalu merangkum masing-masing narasi menggunakan GPT-3.5.
+## Latar Belakang Masalah
+Pemberitaan politik daring di Indonesia sering menyajikan isu yang sama
+dengan sudut pandang dan narasi yang berbeda. Perbedaan framing ini
+dapat memengaruhi cara publik memahami suatu kebijakan atau peristiwa.
 
-## Ringkasan Sistem
-Sistem ini dirancang untuk:
-- Mengambil dokumen berita yang relevan menggunakan BM25
-- Merepresentasikan dokumen dengan TF-IDF dan mengelompokkan ke dalam dua klaster narasi (KMeans)
-- Mengekstraksi topik dominan dari masing-masing klaster
-- Menyusun prompt dan mengirimkannya ke GPT-3.5 untuk menghasilkan ringkasan
-- Menampilkan dua ringkasan narasi kontras yang mencerminkan framing yang berbeda
+Namun, eksplorasi framing berita umumnya masih dilakukan secara manual
+dan sulit diterapkan pada skala besar. Diperlukan pendekatan berbasis data
+untuk membantu mengidentifikasi dan membandingkan narasi yang kontras
+secara sistematis.
 
-## Fitur
-- Pengambilan dokumen berbasis BM25
-- Representasi TF-IDF dan clustering dengan KMeans
-- Ekstraksi topik otomatis
-- Penyusunan prompt kontras
-- Integrasi dengan GPT-3.5 melalui API OpenRouter
+Proyek ini bertujuan untuk mengeksplorasi framing berita politik Indonesia
+menggunakan pendekatan **contrastive retrieval**, sehingga perbedaan
+narasi dapat dianalisis secara lebih terstruktur dan berbasis data.
+
+---
+
+## Data
+- **Sumber:** Portal berita daring berbahasa Indonesia
+- **Dataset:** `iqballx/indonesian_news_datasets` (Hugging Face)
+- **Unit analisis:** Artikel berita
+- **Konten utama:** Judul dan isi berita
+
+---
+
+## Pendekatan Analisis
+
+### 1. Pengambilan Dokumen
+- Dokumen berita diambil berdasarkan **query pengguna**
+  menggunakan metode **BM25** untuk memperoleh artikel yang relevan
+  dengan isu tertentu.
+
+### 2. Representasi dan Segmentasi Narasi
+- Artikel direpresentasikan menggunakan **TF-IDF**
+- Dokumen dikelompokkan ke dalam **dua klaster narasi**
+  menggunakan **KMeans** untuk memisahkan sudut pandang yang kontras
+
+### 3. Eksplorasi Framing
+- Setiap klaster dianalisis untuk mengekstraksi kata kunci
+  dan topik dominan
+- Perbedaan fokus dan gaya narasi digunakan sebagai dasar
+  identifikasi framing
+
+### 4. Ringkasan Narasi
+- Setiap klaster dirangkum secara terpisah menggunakan
+  model bahasa (GPT-3.5)
+- Hasil berupa **dua ringkasan narasi kontras**
+  yang merepresentasikan framing berbeda terhadap isu yang sama
+
+---
+
+## Hasil Analisis
+- Sistem mampu memisahkan berita ke dalam dua kelompok narasi
+  yang merepresentasikan framing berbeda.
+- Ringkasan yang dihasilkan membantu menyederhanakan
+  perbedaan sudut pandang media terhadap suatu isu.
+- Pendekatan ini memudahkan eksplorasi framing tanpa
+  membaca seluruh artikel satu per satu.
+
+---
+
+## Insight Utama
+- Isu politik yang sama dapat dibingkai secara kontras
+  antara sudut pandang teknokratik dan perspektif publik.
+- Pendekatan contrastive retrieval efektif untuk
+  mengungkap perbedaan narasi dalam kumpulan berita besar.
+- Ringkasan narasi membantu mempercepat pemahaman
+  terhadap dinamika framing media.
+
+---
+
+## Rekomendasi
+- **Analisis Media & Kebijakan:**  
+  Metode ini dapat digunakan untuk memantau perbedaan framing
+  media terhadap kebijakan publik secara cepat dan sistematis.
+- **Pemantauan Opini Publik:**  
+  Hasil eksplorasi framing dapat menjadi indikator awal
+  pergeseran persepsi publik.
+- **Pengembangan Analisis Lanjutan:**  
+  Sistem dapat dikombinasikan dengan analisis sentimen
+  atau analisis temporal untuk studi framing yang lebih mendalam.
+
+---
+
+## Contoh Penggunaan
+**Query:**
+
+**Output yang diharapkan:**
+- Narasi 1: Perspektif kebijakan dan argumentasi pemerintah
+- Narasi 2: Perspektif kritik dan keresahan masyarakat
+
+---
+
+## Tools & Teknologi
+- Python
+- BM25 Information Retrieval
+- TF-IDF & KMeans
+- Natural Language Processing (NLP)
+- Integrasi LLM (GPT-3.5)
+- Matplotlib, Seaborn
+
+---
 
 ## Struktur Proyek
 ```
-news_insight_project/
-│
+news_framing_analysis/
 ├── data/
-│   └── berita.json                 # Data berita mentah
-│
+│   └── berita.json
 ├── retriever/
-│   └── bm25_retriever.py          # Modul pengambilan dokumen
-│
+│   └── bm25_retriever.py
 ├── clustering/
-│   └── contrastive_kmeans.py      # Modul clustering dan ekstraksi topik
-│ 
+│   └── contrastive_kmeans.py
 ├── evaluation/
-│   └── ir_metrics.py      # Modul clustering dan ekstraksi topik
+│   ├── ir_metrics.py
 │   └── rouge_eval.py
-│
 ├── llm/
-│   ├── call_gpt.py                # Pemanggilan API GPT
-│   └── prompt_contrastive.py     # Penyusun prompt kontras
-│
+│   ├── call_gpt.py
+│   └── prompt_contrastive.py
 ├── utils/
-│   └── config_loader.py           # Pemuat konfigurasi sistem
-│   └── save_output.py 
-│   └── text_preprocessing.py 
-│
-├── main.py           # Pipeline utama
+│   ├── config_loader.py
+│   ├── save_output.py
+│   └── text_preprocessing.py
+├── main.py
+├── requirements.txt
 └── README.md
-└── requirements.txt
 ```
+---
 
-## Cara Instalasi
-1. Kloning repositori
-2. Install dependensi:
-```bash
-pip install -r requirements.txt
-```
-3. Tambahkan API key di file `config.yaml`:
-```yaml
-openrouter:
-  api_key: "masukkan_api_key_anda"
-```
-
-## Cara Menjalankan
-```bash
-python main_contrastive.py
-```
-Masukkan query saat diminta. Sistem akan menghasilkan dua ringkasan narasi dari dokumen yang terkelompok.
-
-## Contoh Query
-```
-Apa reaksi publik terhadap kenaikan harga BBM?
-```
-
-Output yang diharapkan:
-- Klaster 1: Narasi teknokratik dari sisi pemerintah
-- Klaster 2: Narasi keresahan masyarakat umum
-
-## Dataset
-Dataset yang digunakan: [iqballx/indonesian_news_datasets](https://huggingface.co/datasets/iqballx/indonesian_news_datasets)
-
-## Pengembang
-- Yayang Matira  
-- Magister Ilmu Komputer UGM  
-
-## Lisensi
-MIT License
-
-## Pengembangan Selanjutnya
-- Antarmuka interaktif untuk eksplorasi multi-query
-- Penambahan filter emosi atau sentimen
-- Visualisasi hasil clustering dengan PCA atau UMAP
+## Penulis
+Yayang Matira | Mahasiswa Magister Ilmu Komputer | Universitas Gadjah Mada
