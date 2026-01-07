@@ -18,7 +18,7 @@ narasi dapat dianalisis secara lebih terstruktur dan berbasis data.
 
 ## Data
 - **Sumber:** Portal berita daring berbahasa Indonesia
-- **Dataset:** `iqballx/indonesian_news_datasets` (Hugging Face)
+- **Dataset:** [iqballx/indonesian_news_datasets](https://huggingface.co/datasets/iqballx/indonesian_news_datasets)
 - **Unit analisis:** Artikel berita
 - **Konten utama:** Judul dan isi berita
 
